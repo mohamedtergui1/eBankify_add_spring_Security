@@ -1,7 +1,9 @@
 spring:
   application:
     name: eBankify
-
+  mail:
+    username:
+    password:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/eBankify
@@ -37,4 +39,8 @@ sonar:
   name: "ebankify"
   type: "Project"
 
+security:
+  jwt:
+    secret-key: kazcoineoicnaeoicjceoiznoc_zjv,ominvlnvr93813NRDLIUBFLZEB8F27H4IUFBP9H84HFP2U4FB984FHIP2UBFP923FBIUE
+    expiration-time: 232487289
 

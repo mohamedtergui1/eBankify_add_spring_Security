@@ -21,7 +21,6 @@ public class LoanController {
     private final LoanService loanService;
     private final LoanMapper loanMapper;
     private final UserService userService;
-    private final Jwt jwt;
 
     @GetMapping("/{id}")
     public LoanDto getLoanId(@PathVariable Long id) {
@@ -31,13 +30,13 @@ public class LoanController {
     @PostMapping
     public LoanDto createLoan(@RequestBody @Valid LoanCreateDto loanCreateDto, @RequestHeader("Authorization") String token) {
         Loan  loan = loanMapper.toEntity(loanCreateDto);
-        loan.setUser(userService.getUserByEmail(jwt.extractEmailString(token.substring(7))));
+        loan.setUser(userService.getUserByEmail(""));
         return loanMapper.toDto(loanService.saveLoan(loan));
     }
 
     @GetMapping
     public List<LoanDto> getLoanForAuthAll(@RequestHeader("Authorization") String token){
-        String email = jwt.extractEmailString(token.substring(7));
+        String email = "";
         return loanService.getLoanForAuthAll(email).stream().map(loanMapper::toDto).toList();
     }
 

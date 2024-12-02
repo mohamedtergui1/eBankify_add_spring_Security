@@ -17,12 +17,11 @@ import java.util.List;
 public class TransactionController {
     private final TransactionService transactionService;
     private final UserService userService;
-    private final Jwt jwt;
     private final TransactionMapper transactionMapper;
 
     @GetMapping
     public List<TransactionResponseDto> getAuthUserTransactions( @RequestHeader("Authorization") String token) {
-        String email = jwt.extractEmailString(token.substring(7));
+        String email = "";
         return  transactionService.getByAuthUserTransactions(email).stream().map(transactionMapper::toResponseDto).toList();
     }
 

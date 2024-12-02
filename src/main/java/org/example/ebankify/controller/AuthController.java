@@ -33,9 +33,7 @@ public class AuthController {
     public ResponseEntity<ResponseForme<ResponseFormeWithToken<UserDtoResponse>>> login(@RequestBody @Valid LoginRequest loginRequest) {
         User user = authService.login(userMapper.toEntity(loginRequest));
         return ResponseEntity.ok(
-                new ResponseFormeWithToken<UserDtoResponse>(
-                        jwtUtil.generateToken(
-                                user.getEmail() + "<@>" + user.getRole().name()), userMapper.toDto(user), "login with success"));
+                new ResponseFormeWithToken<>("", userMapper.toDto(user), "login with success"));
     }
 
     @PostMapping("/register")

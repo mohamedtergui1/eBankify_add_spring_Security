@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: eBankify
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/eBankify
+    username: myuser
+    password: mypassword
+
+  jpa:
+    hibernate:
+      show_sql: true
+      format_sql: true
+
+      generate_statistics: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+        hibernate:
+          log_sql: true
+          jdbc_time_zone: UTC
+
+
+
+liquibase:
+  change-log: classpath:db/changelog/db.changelog-master.yaml
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+sonar:
+  token: "sqp_04090bb9db8e2c34804d88393aab00e30dca1775"
+  name: "ebankify"
+  type: "Project"
+
+

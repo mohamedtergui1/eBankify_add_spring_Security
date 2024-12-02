@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginRequest loginUserDto){
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginRequest loginUserDto) {
         User authenticatedUser = authService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         LoginResponse loginResponse = new LoginResponse(jwtToken, jwtService.getExpirationTime(), userMapper.toDto(authenticatedUser));
@@ -41,19 +41,15 @@ public class AuthController {
 
     @PostMapping("/verify")
     public ResponseEntity<?> verifyUser(@RequestBody @Valid VerifyUserDto verifyUserDto) {
-        try {
-            authService.verifyUser(verifyUserDto);
-            return ResponseEntity.ok("Account verified successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        authService.verifyUser(verifyUserDto);
+        return ResponseEntity.ok("Account verified successfully");
     }
 
     @PostMapping("/resend")
     public ResponseEntity<?> resendVerificationCode(@RequestParam String email) {
 
-            authService.resendVerificationCode(email);
-            return ResponseEntity.ok("Verification code sent");
+        authService.resendVerificationCode(email);
+        return ResponseEntity.ok("Verification code sent");
 
     }
 

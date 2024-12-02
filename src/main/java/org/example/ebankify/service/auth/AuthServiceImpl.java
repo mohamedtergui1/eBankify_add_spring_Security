@@ -78,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
                 user.setVerificationCodeExpiresAt(null);
                 userRepository.save(user);
             } else {
-                throw new RuntimeException("Invalid verification code");
+                throw new BadRequest("Invalid verification code");
             }
         } else {
             throw new NotAuthException("User not found");

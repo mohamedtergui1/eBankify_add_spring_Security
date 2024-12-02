@@ -2,13 +2,13 @@ spring:
   application:
     name: eBankify
   mail:
-    username:
-    password:
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/eBankify
-    username: myuser
-    password: mypassword
+    url: jdbc:postgresql://localhost:5432/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -34,13 +34,9 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-sonar:
-  token: "sqp_04090bb9db8e2c34804d88393aab00e30dca1775"
-  name: "ebankify"
-  type: "Project"
 
 security:
   jwt:
-    secret-key: kazcoineoicnaeoicjceoiznoc_zjv,ominvlnvr93813NRDLIUBFLZEB8F27H4IUFBP9H84HFP2U4FB984FHIP2UBFP923FBIUE
-    expiration-time: 232487289
+    secret-key: ${SECRET_KEY}
+    expiration-time: ${EXP_TIME}
 

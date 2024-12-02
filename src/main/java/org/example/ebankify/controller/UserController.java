@@ -34,12 +34,12 @@ public class UserController {
 
     @PostMapping
     public ResponseForme<User> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        return new ResponseForme<>(userService.saveUser(userMapper.toEntity(createUserRequest)), "user created successfully");
+        return new ResponseForme<>(userService.saveUser(userMapper.toRegisterRequest(createUserRequest)), "user created successfully");
     }
 
     @PutMapping
     public ResponseForme<User> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
-        return new ResponseForme<>(userService.updateUser(userMapper.toEntity(updateUserRequest)), "user updated successfully");
+        return new ResponseForme<>(userService.updateUser(userMapper.toRegisterRequest(updateUserRequest)), "user updated successfully");
     }
 
     @DeleteMapping

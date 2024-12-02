@@ -1,8 +1,8 @@
 package org.example.ebankify.mappers;
 
 import org.example.ebankify.dto.user.request.CreateUserRequest;
-import org.example.ebankify.dto.user.request.LoginRequest;
-import org.example.ebankify.dto.user.request.RegisterRequest;
+import org.example.ebankify.dto.auth.LoginRequest;
+import org.example.ebankify.dto.auth.RegisterRequest;
 import org.example.ebankify.dto.user.request.UpdateUserRequest;
 import org.example.ebankify.dto.user.respense.UserDtoResponse;
 import org.example.ebankify.entity.User;
@@ -11,13 +11,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    User toEntity(CreateUserRequest createUserRequest);
+    User toRegisterRequest(CreateUserRequest createUserRequest);
 
-    User toEntity(LoginRequest loginRequest);
+    User toRegisterRequest(LoginRequest loginRequest);
 
-    User toEntity(RegisterRequest registerRequest);
+    User toRegisterRequest(RegisterRequest registerRequest);
 
-    User toEntity(UpdateUserRequest updateUserRequest);
+    User toRegisterRequest(UpdateUserRequest updateUserRequest);
 
     UserDtoResponse toDto(User user);
 

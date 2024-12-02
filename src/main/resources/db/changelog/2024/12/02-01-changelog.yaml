@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1731088860811-1
+      id: 1733138787956-1
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -28,7 +28,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: accounts
   - changeSet:
-      id: 1731088860811-2
+      id: 1733138787956-2
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -52,13 +52,14 @@ databaseChangeLog:
                   type: BIGINT
             tableName: invoices
   - changeSet:
-      id: 1731088860811-3
+      id: 1733138787956-3
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - createTable:
             columns:
               - column:
+                  autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
@@ -88,14 +89,9 @@ databaseChangeLog:
               - column:
                   name: user_id
                   type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: approved
-                  type: BOOLEAN
             tableName: loans
   - changeSet:
-      id: 1731088860811-4
+      id: 1733138787956-4
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -124,9 +120,12 @@ databaseChangeLog:
               - column:
                   name: receiver_id
                   type: BIGINT
+              - column:
+                  name: same_bank
+                  type: BOOLEAN
             tableName: transaction
   - changeSet:
-      id: 1731088860811-5
+      id: 1733138787956-5
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -163,9 +162,20 @@ databaseChangeLog:
               - column:
                   name: role
                   type: VARCHAR(255)
+              - column:
+                  name: verification_code
+                  type: VARCHAR(255)
+              - column:
+                  name: verification_expiration
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: enabled
+                  type: BOOLEAN
             tableName: users
   - changeSet:
-      id: 1731088860811-6
+      id: 1733138787956-6
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -174,7 +184,7 @@ databaseChangeLog:
             constraintName: uc_accounts_account_number
             tableName: accounts
   - changeSet:
-      id: 1731088860811-7
+      id: 1733138787956-7
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -183,7 +193,7 @@ databaseChangeLog:
             constraintName: uc_users_email
             tableName: users
   - changeSet:
-      id: 1731088860811-8
+      id: 1733138787956-8
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -194,7 +204,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: users
   - changeSet:
-      id: 1731088860811-9
+      id: 1733138787956-9
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -205,7 +215,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: users
   - changeSet:
-      id: 1731088860811-10
+      id: 1733138787956-10
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -216,7 +226,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: users
   - changeSet:
-      id: 1731088860811-11
+      id: 1733138787956-11
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -227,7 +237,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: accounts
   - changeSet:
-      id: 1731088860811-12
+      id: 1733138787956-12
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:

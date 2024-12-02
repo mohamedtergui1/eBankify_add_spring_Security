@@ -1,13 +1,18 @@
-package org.example.ebankify.dto.user.request;
+package org.example.ebankify.dto.auth;
 
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.ebankify.annotation.UniqueField;
 import org.example.ebankify.entity.User;
 
 @Getter
-
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterRequest {
 
     @NotBlank(message = "Password is required")
@@ -32,5 +37,9 @@ public class RegisterRequest {
 
     @Min(value = 0)
     private int creditScore;
+
+    @NotBlank
+    @Size(min = 8, max = 30)
+    private String username;
 
 }

@@ -1,5 +1,6 @@
 package org.example.ebankify.dto.account.request;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

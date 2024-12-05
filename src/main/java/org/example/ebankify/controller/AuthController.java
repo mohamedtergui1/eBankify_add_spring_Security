@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginRequest loginUserDto) {
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody @Valid LoginRequest loginUserDto) {
         User authenticatedUser = authService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         LoginResponse loginResponse = new LoginResponse(jwtToken, jwtService.getExpirationTime(), userMapper.toDto(authenticatedUser));
@@ -47,10 +47,8 @@ public class AuthController {
 
     @PostMapping("/resend")
     public ResponseEntity<?> resendVerificationCode(@RequestParam String email) {
-
         authService.resendVerificationCode(email);
         return ResponseEntity.ok("Verification code sent");
-
     }
 
 

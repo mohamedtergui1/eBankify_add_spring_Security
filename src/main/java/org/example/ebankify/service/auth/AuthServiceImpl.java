@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
 
     public User authenticate(LoginRequest input) {
         User user = userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new NotAuthException("User not found"));
+                .orElseThrow(() -> new NotAuthException("your inputs don't match credential"));
 
         if (!user.isEnabled()) {
             throw new NotAuthException("Account not verified. Please verify your account.");
@@ -120,7 +120,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             emailService.sendVerificationEmail(user.getEmail(), subject, htmlMessage);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new BadRequest("message could not be sent");
         }
     }
     private String generateVerificationCode() {

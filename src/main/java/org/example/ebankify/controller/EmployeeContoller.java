@@ -12,6 +12,7 @@ import org.example.ebankify.mappers.AccountMapper;
 import org.example.ebankify.mappers.LoanMapper;
 import org.example.ebankify.service.account.AccountService;
 import org.example.ebankify.service.loan.LoanService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employees")
+@PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN')")
 public class EmployeeContoller {
 
     private final LoanService loanService;

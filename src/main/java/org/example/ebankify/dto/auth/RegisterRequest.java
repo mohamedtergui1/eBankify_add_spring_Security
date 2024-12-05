@@ -24,6 +24,7 @@ public class RegisterRequest {
     private String name;
 
     @UniqueField(entity = User.class, field = "email", message = "Email must be unique")
+    @Email
     @NotBlank(message = "Email is required")
     private String email;
 
@@ -38,8 +39,5 @@ public class RegisterRequest {
     @Min(value = 0)
     private int creditScore;
 
-    @NotBlank
-    @Size(min = 8, max = 30)
-    private String username;
 
 }

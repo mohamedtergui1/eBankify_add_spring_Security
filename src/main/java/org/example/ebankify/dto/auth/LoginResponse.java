@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.ebankify.dto.user.respense.UserDtoResponse;
 
-@AllArgsConstructor
+
 @Getter
+@AllArgsConstructor
 public class LoginResponse {
     private String token;
     private long expiresIn;

@@ -2,29 +2,23 @@ spring:
   application:
     name: eBankify
   mail:
-    username: ${EMAIL_USERNAME}
-    password: ${EMAIL_PASSWORD}
+    username: simotergui4@gmail.com
+    password: ddeqacwmgibokzxy
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/eBankify
+    username: myuser
+    password: mypassword
 
   jpa:
     hibernate:
       show_sql: true
       format_sql: true
-
       generate_statistics: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
-        hibernate:
-          log_sql: true
-          jdbc_time_zone: UTC
-
-
+        jdbc.time_zone: UTC
 
 liquibase:
   change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -34,9 +28,7 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-
 security:
   jwt:
-    secret-key: ${SECRET_KEY}
-    expiration-time: ${EXP_TIME}
-
+    secret-key: dapnfdoaeihfoiharoicfjorizf
+    expiration-time: 3600000

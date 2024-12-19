@@ -27,6 +27,10 @@
         <url/>
     </scm>
     <properties>
+        <sonar.projectKey>E-Bankify-Security</sonar.projectKey>
+        <sonar.projectName>E-Bankify-Security</sonar.projectName>
+        <sonar.host.url>${env.SONAR_HOST_URL}</sonar.host.url>
+        <sonar.login>${env.SONAR_LOGIN}</sonar.login>
         <java.version>17</java.version>
     </properties>
     <dependencies>

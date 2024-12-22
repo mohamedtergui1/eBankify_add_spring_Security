@@ -29,7 +29,7 @@
     <properties>
         <sonar.projectKey>eBankify</sonar.projectKey>
         <sonar.projectName>eBankify</sonar.projectName>
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.host.url>http://host.docker.internal:9000</sonar.host.url>
         <sonar.login>sqp_2f2724908095b04fee8630bac727b1b317b00b7f</sonar.login>
         <java.version>17</java.version>
     </properties>

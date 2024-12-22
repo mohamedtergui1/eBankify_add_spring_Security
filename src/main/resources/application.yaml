@@ -20,8 +20,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc.time_zone: UTC
 
-liquibase:
-  change-log: classpath:db/changelog/db.changelog-master.yaml
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: false
 
 logging:
   level:
@@ -32,3 +33,6 @@ security:
   jwt:
     secret-key: dapnfdoaeihfoiharoicfjorizf
     expiration-time: 3600000
+
+server:
+  port: 8081

@@ -1,6 +1,8 @@
 package org.example.ebankify.config;
 
+import lombok.RequiredArgsConstructor;
 import org.example.ebankify.repository.UserRepository;
+import org.example.ebankify.service.jwt.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,11 +14,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationConfiguration {
+    public final JwtService jwtService;
     private final UserRepository userRepository;
-    public ApplicationConfiguration(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+
+
+
 
     @Bean
     UserDetailsService userDetailsService() {
@@ -24,6 +28,10 @@ public class ApplicationConfiguration {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtService,userDetailsService());
+    }
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

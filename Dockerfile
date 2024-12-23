@@ -18,7 +18,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the JAR file from the build stage
-COPY --from=builder /app/target/eBankify_add_spring_Security-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=builder /app/target/eBankify-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expose port 8080 to be able to access the application externally
 EXPOSE 8080

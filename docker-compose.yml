@@ -4,6 +4,7 @@ services:
 
   db:
     image: postgres:14
+    container_name: ebankify-postgres
     restart: always
     environment:
       - POSTGRES_DB=eBankify
@@ -27,9 +28,23 @@ services:
     networks:
       - jenkins_network
 
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: ebankify-jenkins
+    privileged: true
+    user: root
+    ports:
+      - "8082:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - jenkins_network
+
   sonarqube:
     image: sonarqube:latest
-    container_name: sonarqube-eBankify
+    container_name: ebankify-sonarqube
     restart: always
     depends_on:
       - sonar-postgres
@@ -46,4 +61,4 @@ networks:
   jenkins_network:
 
 volumes:
-  jenkins_home:
+  jenkins_data:

@@ -33,6 +33,3 @@ security:
   jwt:
     secret-key: dapnfdoaeihfoiharoicfjorizf
     expiration-time: 3600000
-
-server:
-  port: 8081

@@ -1,11 +1,11 @@
 # Use a base image with Maven and JDK for building
-FROM maven:3.8.6-openjdk-17-slim as builder
+FROM maven:3.8-openjdk-17-slim as builder
 
 # Set the working directory in the container
 WORKDIR /app
 
 # Copy the Maven POM file and the source code to the container
-COPY pom.xml ./
+COPY pom.xml ./pom.xml
 COPY src ./src
 
 # Run Maven to build the project and create a JAR file

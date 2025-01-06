@@ -1,0 +1,98 @@
+pipeline {
+    agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('token')
+        GIT_REPOSITORY = "https://github.com/mohamedtergui1/eBankify_add_spring_Security.git"
+        BRANCH = 'main'
+        DOCKER_IMAGE = "mohamedtergui/ebankify"
+        IMAGE_TAG = "${env.BUILD_ID}" // Unique image tag using the Jenkins build ID
+        LATEST_IMAGE = "${DOCKER_IMAGE}:latest"
+    }
+
+    stages {
+        stage('Environment Check') {
+            steps {
+                script {
+                    sh 'java -version'
+                    sh 'mvn -version'
+                }
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                git branch: "${BRANCH}",
+                    url: "${GIT_REPOSITORY}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    sh 'mvn package'
+                }
+            }
+        }
+
+        stage('Verify Build Output') {
+            steps {
+                script {
+                    sh 'ls -l target/*.jar'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Static Analysis') {
+            steps {
+                script {
+                    sh 'mvn clean verify sonar:sonar'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh """
+                        docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} .
+                        docker tag ${DOCKER_IMAGE}:${IMAGE_TAG} ${LATEST_IMAGE}
+                    """
+                }
+            }
+        }
+
+
+    }
+
+    post {
+        success {
+            mail to: 'simotergui4@gmail.com',
+                subject: "Jenkins Build SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Build succeeded!
+                    Project: ${env.JOB_NAME}
+                    Build Number: ${env.BUILD_NUMBER}
+                    Docker Image: ${LATEST_IMAGE}
+                    Check the Jenkins console for more details: ${env.BUILD_URL}
+                """
+        }
+        failure {
+            mail to: 'simotergui4@gmail.com',
+                subject: "Jenkins Build FAILURE - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Build failed!
+                    Project: ${env.JOB_NAME}
+                    Build Number: ${env.BUILD_NUMBER}
+                    Check the Jenkins console for more details: ${env.BUILD_URL}
+                """
+        }
+    }
+}

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1733138787956-1
+      id: 1735159946437-1
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -28,7 +28,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: accounts
   - changeSet:
-      id: 1733138787956-2
+      id: 1735159946437-2
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -52,7 +52,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: invoices
   - changeSet:
-      id: 1733138787956-3
+      id: 1735159946437-3
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -91,7 +91,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: loans
   - changeSet:
-      id: 1733138787956-4
+      id: 1735159946437-4
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -125,7 +125,7 @@ databaseChangeLog:
                   type: BOOLEAN
             tableName: transaction
   - changeSet:
-      id: 1733138787956-5
+      id: 1735159946437-5
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -173,9 +173,12 @@ databaseChangeLog:
                     nullable: false
                   name: enabled
                   type: BOOLEAN
+              - column:
+                  name: username
+                  type: VARCHAR(255)
             tableName: users
   - changeSet:
-      id: 1733138787956-6
+      id: 1735159946437-6
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -184,7 +187,7 @@ databaseChangeLog:
             constraintName: uc_accounts_account_number
             tableName: accounts
   - changeSet:
-      id: 1733138787956-7
+      id: 1735159946437-7
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -193,7 +196,7 @@ databaseChangeLog:
             constraintName: uc_users_email
             tableName: users
   - changeSet:
-      id: 1733138787956-8
+      id: 1735159946437-8
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -204,7 +207,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: users
   - changeSet:
-      id: 1733138787956-9
+      id: 1735159946437-9
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -215,7 +218,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: users
   - changeSet:
-      id: 1733138787956-10
+      id: 1735159946437-10
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -226,7 +229,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: users
   - changeSet:
-      id: 1733138787956-11
+      id: 1735159946437-11
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -237,7 +240,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: accounts
   - changeSet:
-      id: 1733138787956-12
+      id: 1735159946437-12
       author: Youcode
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:

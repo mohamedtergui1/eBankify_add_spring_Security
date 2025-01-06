@@ -2,8 +2,8 @@ spring:
   application:
     name: eBankify
   mail:
-    username: simotergui4@gmail.com
-    password: ddeqacwmgibokzxy
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/eBankify
@@ -15,6 +15,7 @@ spring:
       show_sql: true
       format_sql: true
       generate_statistics: true
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -31,5 +32,5 @@ logging:
 
 security:
   jwt:
-    secret-key: dapnfdoaeihfoiharoicfjorizf
-    expiration-time: 3600000
+    secret-key: ${SECRET_KEY}
+    expiration-time: ${EXP_TIME}

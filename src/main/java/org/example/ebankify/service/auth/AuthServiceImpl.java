@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.example.ebankify.dto.auth.LoginRequest;
 import org.example.ebankify.dto.auth.RegisterRequest;
+import org.example.ebankify.dto.auth.RsendVerificationCodeRequest;
 import org.example.ebankify.dto.auth.VerifyUserDto;
+import org.example.ebankify.dto.user.respense.UserDtoResponse;
 import org.example.ebankify.entity.User;
 
 import org.example.ebankify.exception.BadRequest;
@@ -17,6 +19,8 @@ import org.example.ebankify.service.email.EmailService;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
     public User authenticate(LoginRequest input) {
         User user = userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new NotAuthException("User not found"));
+                .orElseThrow(() -> new NotAuthException("the credential dont match our data"));
 
         if (!user.isEnabled()) {
             throw new NotAuthException("Account not verified. Please verify your account.");
@@ -69,9 +73,11 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> optionalUser = userRepository.findByEmail(input.getEmail());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            if (user.getVerificationCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            if (user.getVerificationCodeExpiresAt() == null ||
+                    LocalDateTime.now().isAfter(user.getVerificationCodeExpiresAt())) {
                 throw new NotAuthException("Verification code has expired");
             }
+
             if (user.getVerificationCode().equals(input.getVerificationCode())) {
                 user.setEnabled(true);
                 user.setVerificationCode(null);
@@ -85,8 +91,8 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    public void resendVerificationCode(String email) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+    public void   resendVerificationCode(RsendVerificationCodeRequest rsendVerificationCodeRequest) {
+        Optional<User> optionalUser = userRepository.findByEmail(rsendVerificationCodeRequest.email());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.isEnabled()) {
@@ -99,6 +105,12 @@ public class AuthServiceImpl implements AuthService {
         } else {
             throw new NotAuthException("User not found");
         }
+    }
+
+    @Override
+    public UserDtoResponse authUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userMapper.toDto(user);
     }
 
     private void sendVerificationEmail(User user) {

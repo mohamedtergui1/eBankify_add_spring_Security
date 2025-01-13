@@ -1,11 +1,13 @@
 package org.example.ebankify.service.account;
 
 import lombok.RequiredArgsConstructor;
+import org.example.ebankify.dto.account.request.AccountCreateDto;
 import org.example.ebankify.dto.account.response.AccountDtoResponse;
 import org.example.ebankify.entity.Account;
 import org.example.ebankify.entity.User;
 import org.example.ebankify.exception.*;
 
+import org.example.ebankify.mappers.AccountMapper;
 import org.example.ebankify.repository.AccountRepository;
 import org.example.ebankify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -28,38 +32,25 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
-
-
+    private final AccountMapper accountMapper;
     @Override
-    public Account getAccount(long id) {
-
-        Optional<Account> account = accountRepository.findById(id);
-        if (account.isPresent()) {
-            return account.get();
-        }
-        throw new NotFoundException("Account not found");
-
+    public AccountDtoResponse getAccount(UUID id) {
+       return  accountMapper.toDto(accountRepository.findById(id).orElseThrow(()-> new NotFoundException("account not found")));
     }
 
     @Override
     @Transactional
-    public Account createAccount(Account account) {
-        if (accountRepository.existsByAccountNumber(account.getAccountNumber())) {
-            throw new BadRequest("account number already exists");
-        }
-        if (!userRepository.existsById(account.getUser().getId())) {
-            throw new BadRequest("user not  found");
-        }
-        return accountRepository.save(account);
-
+    public AccountDtoResponse createAccount(AccountCreateDto account) {
+        return accountMapper.toDto(accountRepository.save(accountMapper.toEntity(account)));
     }
 
     @Override
     @Transactional
-    public Account updateAccount(Account account) {
-
-        if (accountRepository.findById(account.getId()).isPresent()) {
-            return accountRepository.save(account);
+    public AccountDtoResponse updateAccount(AccountCreateDto accountCreateDto, UUID id) {
+        if (accountRepository.existsById(id)) {
+            Account account = accountMapper.toEntity(accountCreateDto);
+            account.setId(id);
+            return accountMapper.toDto(accountRepository.save(account));
         }
         throw new DeleteUpdateException("Account could not  found");
 
@@ -67,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void deleteAccount(long id) {
+    public void deleteAccount(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User authenticationUser = (User) authentication.getPrincipal();
 
@@ -81,22 +72,19 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
+    @Override
+    public Page<AccountDtoResponse> getAuthUserAccounts( int page, int size) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticationUser = (User) authentication.getPrincipal();
+        User authUser = userRepository.findByEmail(authenticationUser.getEmail())
+                .orElseThrow(() -> new NotAuthException("You need to auth"));
+        Pageable pageable = PageRequest.of(page, size);
+        return accountRepository.findByUserId(authUser.getId(), pageable).map(accountMapper::toDto);
+    }
 
-
-
-@Override
-public Page<Account> getAuthUserAccounts(String email, int page, int size) {
-
-    User authUser = userRepository.findByEmail(email)
-            .orElseThrow(() -> new NotAuthException("You need to auth"));
-    Pageable pageable = PageRequest.of(page, size);
-    return accountRepository.findByUserId(authUser.getId(), pageable);
-
-}
-
-@Override
-public List<Account> getAll() {
-    return accountRepository.findAll();
-}
+    @Override
+    public List<AccountDtoResponse> getAll() {
+        return accountRepository.findAll().stream().map(accountMapper::toDto).toList();
+    }
 
 }

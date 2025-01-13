@@ -1,11 +1,13 @@
 package org.example.ebankify.config;
 
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.ebankify.service.jwt.JwtService;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,11 +15,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
+
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
+
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -40,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        try {
+        //try {
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
 
@@ -62,8 +66,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+//        } catch (Exception exception) {
+//            ErrorResponse errorResponse = new ErrorResponse(
+//                    exception.getMessage(),
+//                    HttpStatus.UNAUTHORIZED,
+//                    LocalDateTime.now(),
+//                    Map.of("error", "Unauthorized access")
+//            );
+//
+//
+//
+//
+//
+//            response.setContentType("application/json");
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.getWriter().write(errorResponse.toString());
+//
+//        }
     }
+
+    private record ErrorResponse(
+            String message,
+            HttpStatus status,
+            LocalDateTime timestamp,
+            Map<String, String> errors
+    ) {}
 }

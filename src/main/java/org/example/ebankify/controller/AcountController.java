@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users/account")
@@ -29,37 +31,21 @@ public class AcountController {
     @GetMapping
     public Page<AccountDtoResponse> authUserAccounts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User authenticationUser = (User) authentication.getPrincipal();
-
-        return accountService.getAuthUserAccounts( authenticationUser.getEmail() , page, size).map(accountMapper::toDto);
+        return accountService.getAuthUserAccounts(page, size);
     }
 
     @PostMapping
     public AccountDtoResponse createAccount(@RequestBody AccountCreateDto accountCreateDto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User authenticationUser = (User) authentication.getPrincipal();
-
-        Account account = accountMapper.toEntity(accountCreateDto);
-        account.setUser(authenticationUser);
-        return accountMapper.toDto(accountService.createAccount(account));
+        return accountService.createAccount(accountCreateDto);
     }
 
-    @PutMapping
-    public AccountDtoResponse updateAccount(@RequestBody AccountUpdateDto accountUpdateDto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User authenticationUser = (User) authentication.getPrincipal();
-
-        Account account = accountService.getAccount(accountUpdateDto.getId());
-        if (account.getUser().getId().equals(authenticationUser.getId())) {
-            throw new PermissionException("you dont have permission");
-        }
-
-        return accountMapper.toDto(accountService.updateAccount(accountMapper.toEntity(accountUpdateDto)));
+    @PutMapping("/{id}")
+    public AccountDtoResponse updateAccount(@RequestBody AccountCreateDto accountCreateDto, @PathVariable UUID id) {
+        return accountService.updateAccount(accountCreateDto, id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAccount(@PathVariable Long id) {
+    public void deleteAccount(@PathVariable UUID id) {
 
         accountService.deleteAccount(id);
     }

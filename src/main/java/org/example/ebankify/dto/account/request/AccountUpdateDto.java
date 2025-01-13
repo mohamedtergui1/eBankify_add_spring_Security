@@ -4,10 +4,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.example.ebankify.enums.AccountStatus;
 
+import java.util.UUID;
+
 @Getter
 public class AccountUpdateDto {
     @NotNull
-    private Long id;
+    private UUID id;
 
     @NotNull
     private Double balance;

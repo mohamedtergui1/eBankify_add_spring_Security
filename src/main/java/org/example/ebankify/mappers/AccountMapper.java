@@ -13,6 +13,4 @@ public interface AccountMapper {
     Account toEntity(AccountCreateDto accountCreateDto);
 
     Account toEntity(AccountUpdateDto accountUpdateDto);
-
-
 }

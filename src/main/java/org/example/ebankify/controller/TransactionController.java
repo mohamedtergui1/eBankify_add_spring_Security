@@ -21,12 +21,12 @@ public class TransactionController {
 
     @GetMapping
     public List<TransactionResponseDto> getAuthUserTransactions( @RequestHeader("Authorization") String token) {
-        return  transactionService.getByAuthUserTransactions().stream().map(transactionMapper::toResponseDto).toList();
+        return  transactionService.getByAuthUserTransactions();
     }
 
     @PostMapping
     public TransactionResponseDto addTransaction(@RequestBody @Valid TransactionCreateDto transactionCreateDto, @RequestHeader("Authorization") String token){
 
-        return transactionMapper.toResponseDto(transactionService.saveTransaction(transactionMapper.toEntity(transactionCreateDto))) ;
+        return transactionService.saveTransaction(transactionCreateDto) ;
     }
 }

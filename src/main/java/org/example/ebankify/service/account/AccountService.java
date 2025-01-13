@@ -1,21 +1,23 @@
 package org.example.ebankify.service.account;
 
+import org.example.ebankify.dto.account.request.AccountCreateDto;
 import org.example.ebankify.dto.account.response.AccountDtoResponse;
 import org.example.ebankify.entity.Account;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface AccountService {
-    Account getAccount(long id);
+    AccountDtoResponse getAccount(UUID id);
 
-    Account createAccount(Account account);
+    AccountDtoResponse createAccount(AccountCreateDto account);
 
-    Account updateAccount(Account account);
+    AccountDtoResponse updateAccount(AccountCreateDto account , UUID id);
 
-    void deleteAccount(long id);
+    void deleteAccount(UUID id);
 
-    Page<Account> getAuthUserAccounts(String email, int page, int size);
+    Page<AccountDtoResponse> getAuthUserAccounts( int page, int size);
 
-    List<Account> getAll();
+    List<AccountDtoResponse> getAll();
 }

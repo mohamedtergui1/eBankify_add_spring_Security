@@ -10,6 +10,8 @@ import lombok.Setter;
 import org.example.ebankify.dto.user.respense.UserDtoResponse;
 import org.example.ebankify.enums.AccountStatus;
 
+import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -17,7 +19,7 @@ import org.example.ebankify.enums.AccountStatus;
 @NoArgsConstructor
 public class AccountDtoResponse {
 
-    private Long id;
+    private UUID id;
 
     private Double balance;
 

@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.example.ebankify.enums.AccountStatus;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
@@ -19,13 +20,10 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    private UUID id;
 
     private Double balance;
 
-    @Column(name = "account_number", unique = true)
-    private String accountNumber;
 
     @Enumerated(EnumType.STRING)
     private AccountStatus status;

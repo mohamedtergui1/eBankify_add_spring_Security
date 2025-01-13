@@ -2,6 +2,7 @@ package org.example.ebankify.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.ebankify.dto.account.request.AccountCreateDto;
 import org.example.ebankify.dto.account.request.AccountUpdateDto;
 import org.example.ebankify.dto.account.response.AccountDtoResponse;
 import org.example.ebankify.dto.loan.request.LoanUpdateDto;
@@ -15,6 +16,7 @@ import org.example.ebankify.service.loan.LoanService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,14 +34,14 @@ public class EmployeeContoller {
         return  loanMapper.toDto(loanService.updateLoan(loan));
     }
 
-    @PutMapping("/account")
-    public AccountDtoResponse updateAccount(@RequestBody @Valid AccountUpdateDto accountUpdateDto) {
-        return accountMapper.toDto(accountService.updateAccount(accountMapper.toEntity(accountUpdateDto)));
+    @PutMapping("/account/{id}")
+    public AccountDtoResponse updateAccount(@RequestBody @Valid AccountCreateDto accountCreateDto, @PathVariable UUID id) {
+        return accountService.updateAccount(accountCreateDto,id);
     }
 
     @GetMapping("/account")
     public List<AccountDtoResponse> getAccounts() {
-        return accountService.getAll().stream().map(accountMapper::toDto).toList();
+        return accountService.getAll();
     }
 
     @GetMapping("/loan")

@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.example.ebankify.enums.TransactionStatus;
 import org.example.ebankify.enums.TransactionType;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class TransactionCreateDto {
@@ -20,10 +22,11 @@ public class TransactionCreateDto {
     private Double amount;
 
     @NotNull(message = "Receiver ID cannot be null.")
-    private Long receiverId;
+    private UUID receiverId;
 
     @NotNull(message = "Receiver ID cannot be null.")
-    private Long senderId;
+    private UUID senderId;
 
     private Boolean sameBank;
+
 }

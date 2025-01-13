@@ -10,7 +10,7 @@ public interface TransactionService {
 
     Transaction saveTransaction(Transaction transaction);
 
-    List<Transaction> getByAuthUserTransactions(String email);
+    List<Transaction> getByAuthUserTransactions( );
 
 
 }

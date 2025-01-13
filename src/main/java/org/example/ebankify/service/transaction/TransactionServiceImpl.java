@@ -11,6 +11,7 @@ import org.example.ebankify.repository.AccountRepository;
 import org.example.ebankify.repository.TransactionRepository;
 import org.example.ebankify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,9 +53,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getByAuthUserTransactions(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
-
+    public List<Transaction> getByAuthUserTransactions() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return transactionRepository.findByUserId(user.getId());
     }
 

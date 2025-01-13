@@ -21,8 +21,7 @@ public class TransactionController {
 
     @GetMapping
     public List<TransactionResponseDto> getAuthUserTransactions( @RequestHeader("Authorization") String token) {
-        String email = "";
-        return  transactionService.getByAuthUserTransactions(email).stream().map(transactionMapper::toResponseDto).toList();
+        return  transactionService.getByAuthUserTransactions().stream().map(transactionMapper::toResponseDto).toList();
     }
 
     @PostMapping

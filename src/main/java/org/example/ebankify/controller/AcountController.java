@@ -12,6 +12,8 @@ import org.example.ebankify.mappers.AccountMapper;
 import org.example.ebankify.service.account.AccountService;
 import org.example.ebankify.service.user.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -25,24 +27,31 @@ public class AcountController {
     private final UserService userService;
 
     @GetMapping
-    public Page<AccountDtoResponse> authUserAccounts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestHeader("Authorization") String token) {
+    public Page<AccountDtoResponse> authUserAccounts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 
-        String  email = "";
-        return accountService.getAuthUserAccounts(email, page, size).map(accountMapper::toDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticationUser = (User) authentication.getPrincipal();
+
+        return accountService.getAuthUserAccounts( authenticationUser.getEmail() , page, size).map(accountMapper::toDto);
     }
 
     @PostMapping
-    public AccountDtoResponse createAccount(@RequestBody AccountCreateDto accountCreateDto, @RequestHeader("Authorization") String token) {
+    public AccountDtoResponse createAccount(@RequestBody AccountCreateDto accountCreateDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticationUser = (User) authentication.getPrincipal();
+
         Account account = accountMapper.toEntity(accountCreateDto);
-        account.setUser(userService.getUserByEmail(""));
+        account.setUser(authenticationUser);
         return accountMapper.toDto(accountService.createAccount(account));
     }
 
     @PutMapping
-    public AccountDtoResponse updateAccount(@RequestBody AccountUpdateDto accountUpdateDto, @RequestHeader("Authorization") String token) {
-        User user = userService.getUserByEmail("");
+    public AccountDtoResponse updateAccount(@RequestBody AccountUpdateDto accountUpdateDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticationUser = (User) authentication.getPrincipal();
+
         Account account = accountService.getAccount(accountUpdateDto.getId());
-        if (account.getUser().getId().equals(user.getId())) {
+        if (account.getUser().getId().equals(authenticationUser.getId())) {
             throw new PermissionException("you dont have permission");
         }
 
@@ -50,12 +59,8 @@ public class AcountController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAccount(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-        User user = userService.getUserByEmail("");
-        Account account = accountService.getAccount(id);
-        if (account.getUser().getId().equals(user.getId())) {
-            throw new PermissionException("you dont have permission");
-        }
+    public void deleteAccount(@PathVariable Long id) {
+
         accountService.deleteAccount(id);
     }
 

@@ -1,21 +1,13 @@
 package org.example.ebankify.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.example.ebankify.dto.account.request.AccountCreateDto;
-import org.example.ebankify.dto.account.request.AccountUpdateDto;
 import org.example.ebankify.dto.account.response.AccountDtoResponse;
-import org.example.ebankify.entity.Account;
-import org.example.ebankify.entity.User;
-import org.example.ebankify.exception.PermissionException;
 import org.example.ebankify.mappers.AccountMapper;
 import org.example.ebankify.service.account.AccountService;
 import org.example.ebankify.service.user.UserService;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -46,7 +38,6 @@ public class AcountController {
 
     @DeleteMapping("/{id}")
     public void deleteAccount(@PathVariable UUID id) {
-
         accountService.deleteAccount(id);
     }
 

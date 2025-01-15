@@ -1,5 +1,7 @@
 package org.example.ebankify.service.loan;
 
+import org.example.ebankify.dto.loan.request.LoanCreateDto;
+import org.example.ebankify.dto.loan.response.LoanDto;
 import org.example.ebankify.entity.Loan;
 
 import java.util.Collection;
@@ -7,14 +9,14 @@ import java.util.List;
 
 public interface LoanService {
 
-    Loan getLoan(Long id);
+    LoanDto getLoan(Long id);
 
-    Loan saveLoan(Loan loan);
+    LoanDto saveLoan(LoanCreateDto loan);
 
-    Loan updateLoan(Loan loan);
+    LoanDto updateLoan(LoanCreateDto loan , Long id);
 
     void processLoanPayments();
 
-    List<Loan> getAll();
-    List<Loan> getLoanForAuthAll(String email);
+    List<LoanDto> getAll();
+    List<LoanDto> getLoanForAuthAll();
 }

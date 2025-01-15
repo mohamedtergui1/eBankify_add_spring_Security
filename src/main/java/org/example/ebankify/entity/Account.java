@@ -19,11 +19,10 @@ import java.util.UUID;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private UUID id;
 
     private Double balance;
-
 
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
@@ -33,9 +32,9 @@ public class Account {
     private User user;
 
     @OneToMany(mappedBy = "sender")
-    private List<Transaction> transactionssender;
+    private List<Transaction> transactionsSent;
 
     @OneToMany(mappedBy = "receiver")
-    private List<Transaction> transactionsreciver;
+    private List<Transaction> transactionsReceived;
 
 }

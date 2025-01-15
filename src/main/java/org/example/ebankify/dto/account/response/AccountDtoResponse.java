@@ -23,8 +23,6 @@ public class AccountDtoResponse {
 
     private Double balance;
 
-    private String accountNumber;
-
     private AccountStatus status;
 
     private UserDtoResponse user;

@@ -40,8 +40,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public AccountDtoResponse createAccount(AccountCreateDto account) {
-        return accountMapper.toDto(accountRepository.save(accountMapper.toEntity(account)));
+    public AccountDtoResponse createAccount(AccountCreateDto accountCreateDto) {
+        Account account = accountMapper.toEntity(accountCreateDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticationUser = (User) authentication.getPrincipal();
+        account.setUser(authenticationUser);
+        return accountMapper.toDto(accountRepository.save(account));
     }
 
     @Override
@@ -76,10 +80,9 @@ public class AccountServiceImpl implements AccountService {
     public Page<AccountDtoResponse> getAuthUserAccounts( int page, int size) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User authenticationUser = (User) authentication.getPrincipal();
-        User authUser = userRepository.findByEmail(authenticationUser.getEmail())
-                .orElseThrow(() -> new NotAuthException("You need to auth"));
+
         Pageable pageable = PageRequest.of(page, size);
-        return accountRepository.findByUserId(authUser.getId(), pageable).map(accountMapper::toDto);
+        return accountRepository.findByUserId(authenticationUser.getId(), pageable).map(accountMapper::toDto);
     }
 
     @Override

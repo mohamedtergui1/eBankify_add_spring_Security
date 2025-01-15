@@ -14,10 +14,10 @@ import java.util.UUID;
 @Setter
 public class TransactionCreateDto {
 
-    @NotNull(message = "Transaction type cannot be null.")
+    @NotNull()
     private TransactionType type;
 
-    @NotNull(message = "Amount cannot be null.")
+    @NotNull()
     @Min(value = 1, message = "Amount must be greater than 0.")
     private Double amount;
 

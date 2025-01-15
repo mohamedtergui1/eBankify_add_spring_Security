@@ -19,26 +19,20 @@ import java.util.List;
 public class LoanController {
 
     private final LoanService loanService;
-    private final LoanMapper loanMapper;
-    private final UserService userService;
 
     @GetMapping("/{id}")
     public LoanDto getLoanId(@PathVariable Long id) {
-        return loanMapper.toDto(loanService.getLoan(id));
+        return loanService.getLoan(id);
     }
 
     @PostMapping
-    public LoanDto createLoan(@RequestBody @Valid LoanCreateDto loanCreateDto, @RequestHeader("Authorization") String token) {
-        Loan  loan = loanMapper.toEntity(loanCreateDto);
-        loan.setUser(userService.getUserByEmail(""));
-        return loanMapper.toDto(loanService.saveLoan(loan));
+    public LoanDto createLoan(@RequestBody @Valid LoanCreateDto loanCreateDto) {
+        return loanService.saveLoan(loanCreateDto);
     }
 
     @GetMapping
-    public List<LoanDto> getLoanForAuthAll(@RequestHeader("Authorization") String token){
-        String email = "";
-        return loanService.getLoanForAuthAll(email).stream().map(loanMapper::toDto).toList();
+    public List<LoanDto> getLoanForAuthAll(){
+        return loanService.getLoanForAuthAll();
     }
-
 
 }

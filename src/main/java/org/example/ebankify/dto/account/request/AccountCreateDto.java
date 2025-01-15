@@ -14,11 +14,6 @@ public class AccountCreateDto {
     private Double balance;
 
     @NotNull
-    @Size(max = 24 )
-    @UniqueField(entity = Account.class , message = "account number must be unique", field = "accountNumber")
-    private String accountNumber;
-
-    @NotNull
     private AccountStatus status;
 
 }

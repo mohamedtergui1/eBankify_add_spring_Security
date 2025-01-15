@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.ebankify.dto.account.request.AccountCreateDto;
 import org.example.ebankify.dto.account.request.AccountUpdateDto;
 import org.example.ebankify.dto.account.response.AccountDtoResponse;
+import org.example.ebankify.dto.loan.request.LoanCreateDto;
 import org.example.ebankify.dto.loan.request.LoanUpdateDto;
 import org.example.ebankify.dto.loan.response.LoanDto;
 
@@ -28,10 +29,9 @@ public class EmployeeContoller {
     private final AccountService accountService;
     private final AccountMapper accountMapper;
 
-    @PutMapping("/loan")
-    public LoanDto updateLoan(@RequestBody @Valid LoanUpdateDto loanUpdateDto) {
-        Loan loan = loanMapper.toEntity(loanUpdateDto);
-        return  loanMapper.toDto(loanService.updateLoan(loan));
+    @PutMapping("/loan/{id}")
+    public LoanDto updateLoan(@RequestBody @Valid LoanCreateDto loanCreateDto , @PathVariable Long id) {
+        return  loanService.updateLoan(loanCreateDto,id);
     }
 
     @PutMapping("/account/{id}")
@@ -46,6 +46,6 @@ public class EmployeeContoller {
 
     @GetMapping("/loan")
     public List<LoanDto> getLoans() {
-        return loanService.getAll().stream().map(loanMapper::toDto).toList();
+        return loanService.getAll();
     }
 }
